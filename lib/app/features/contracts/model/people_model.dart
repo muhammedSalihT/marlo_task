@@ -1,5 +1,5 @@
-class TeamModel {
-  TeamModel({
+class PeopleModel {
+  PeopleModel({
     this.errorFlag,
     this.message,
     this.data,
@@ -11,7 +11,7 @@ class TeamModel {
   bool status;
   Data? data;
 
-  factory TeamModel.fromJson(Map<String, dynamic> json) => TeamModel(
+  factory PeopleModel.fromJson(Map<String, dynamic> json) => PeopleModel(
         errorFlag: json["error_flag"] ?? "",
         message: json["message"] ?? "",
         data: Data.fromJson(json["data"]),
