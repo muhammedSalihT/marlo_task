@@ -146,10 +146,10 @@ class ContractsScreen extends GetWidget<ContractsScreenController> {
           );
         }),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: skyBlue,
+          backgroundColor: lightBlue,
           elevation: 0,
           onPressed: () {
-            Get.to(() =>  InvitePeopleScreen());
+            Get.to(() => InvitePeopleScreen());
           },
           child: const Icon(Icons.add),
         ),
