@@ -4,6 +4,8 @@ import 'package:marlo_task/app/constants/color_const.dart';
 abstract class Themes {
   static ThemeData themeData(isDarkTheme, BuildContext context) {
     return ThemeData(
+        bottomSheetTheme: BottomSheetThemeData(
+            backgroundColor: isDarkTheme.value ? dark : scaffoldWhite),
         textTheme: Theme.of(context).textTheme.apply(
               bodyColor: isDarkTheme.value ? white : dark,
             ),
