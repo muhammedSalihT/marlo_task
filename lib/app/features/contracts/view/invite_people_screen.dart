@@ -119,7 +119,11 @@ class InvitePeopleScreen extends GetWidget<InvitePeopleController> {
                                                               controller
                                                                   .roles[index]
                                                           ? skyBlue
-                                                          : white,
+                                                          : themeController
+                                                                  .darkTheme
+                                                                  .value
+                                                              ? lightGrey
+                                                              : white,
                                                     ),
                                                     child: Padding(
                                                       padding:
@@ -130,6 +134,18 @@ class InvitePeopleScreen extends GetWidget<InvitePeopleController> {
                                                               .centerLeft,
                                                           child:
                                                               TextStyleWidget(
+                                                            textSize: 18,
+                                                            textColor: controller
+                                                                        .invitingRole ==
+                                                                    controller
+                                                                            .roles[
+                                                                        index]
+                                                                ? darkBlue
+                                                                : themeController
+                                                                        .darkTheme
+                                                                        .value
+                                                                    ? white
+                                                                    : dark,
                                                             text: controller
                                                                 .roles[index]
                                                                 .toString(),
@@ -188,8 +204,8 @@ class InvitePeopleScreen extends GetWidget<InvitePeopleController> {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-          ),
+              borderRadius: BorderRadius.circular(25),
+              color: Colors.transparent),
           width: 500,
           height: 50,
           child: ElevatedButton(
