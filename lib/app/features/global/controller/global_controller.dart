@@ -9,9 +9,9 @@ class GlobalScreenController extends GetxController {
   final RxInt selectedIndex = 0.obs;
 
   var screens = [
-    const HomeScree(),
+    HomeScree(),
     const LoanScreen(),
-    const ContractsScreen(),
+    ContractsScreen(),
     const TeamScreen(),
     const ChatScreen()
   ].obs;
