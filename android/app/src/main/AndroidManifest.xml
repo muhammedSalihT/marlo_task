@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.marlo_task">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="marlo_task"
         android:name="${applicationName}"
