@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:marlo_task/app/constants/color_const.dart';
 import 'package:marlo_task/app/constants/space_box.dart';
+import 'package:marlo_task/app/features/contracts/controller/contracts_screen_controller.dart';
+import 'package:marlo_task/app/features/contracts/view/invite_people_screen.dart';
+import 'package:marlo_task/app/theme/theme_controller.dart';
 import 'package:marlo_task/app/utilities/text_style_widget.dart';
 
-class ContractsScreen extends StatelessWidget {
-  const ContractsScreen({Key? key}) : super(key: key);
+class ContractsScreen extends GetWidget<ContractsScreenController> {
+  ContractsScreen({Key? key}) : super(key: key);
 
+  final themeController = Get.find<ThemeController>();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -14,8 +19,9 @@ class ContractsScreen extends StatelessWidget {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           titleSpacing: 0,
-          title: const TextStyleWidget(
+          title: TextStyleWidget(
             text: "Teams",
+            textColor: themeController.darkTheme.value ? white : dark,
             textSize: 50,
           ),
           actions: [
@@ -26,85 +32,125 @@ class ContractsScreen extends StatelessWidget {
             )
           ],
         ),
-        body: Column(
-          children: [
-            k40Height,
-            const HeadingWidgets(
-              head: "All People - 3",
-            ),
-            ListView.separated(
-              padding: const EdgeInsets.symmetric(vertical: 30),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return Container(
-                  decoration: BoxDecoration(
-                      color: white, borderRadius: BorderRadius.circular(10)),
-                  child: ListTile(
-                    leading: Container(
-                      decoration: BoxDecoration(
-                          color: darkBlue,
-                          borderRadius: BorderRadius.circular(10)),
-                      height: 50,
-                      width: 50,
+        body: GetBuilder<ContractsScreenController>(
+            builder: (contractsScreenController) {
+          return Column(
+            children: [
+              k40Height,
+              HeadingWidgets(
+                head:
+                    "All People • ${contractsScreenController.peopleList[0].data!.contacts!.length}",
+              ),
+              ListView.separated(
+                padding: const EdgeInsets.symmetric(vertical: 30),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  final data = contractsScreenController
+                      .peopleList[0].data!.contacts![index];
+                  return Container(
+                    decoration: BoxDecoration(
+                        color:
+                            themeController.darkTheme.value ? lightGrey : white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: ListTile(
+                      leading: Container(
+                        decoration: BoxDecoration(
+                            color: darkBlue,
+                            borderRadius: BorderRadius.circular(10)),
+                        height: 50,
+                        width: 50,
+                        child: Center(
+                          child: TextStyleWidget(
+                              textColor: white,
+                              textWidth: FontWeight.w600,
+                              text:
+                                  " ${data.firstname[0].toUpperCase()} ${data.lastname[0].toUpperCase()}"),
+                        ),
+                      ),
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextStyleWidget(
+                              textColor: themeController.darkTheme.value
+                                  ? white
+                                  : dark,
+                              text:
+                                  "${data.firstname.toUpperCase()} ${data.lastname.toUpperCase()}"),
+                          const TextStyleWidget(text: "Admin")
+                        ],
+                      ),
+                      subtitle: TextStyleWidget(
+                          textColor: grey,
+                          text: data.isactive == true ? "Active" : "Inactive"),
                     ),
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        TextStyleWidget(text: "Krishnan Sounder"),
-                        TextStyleWidget(text: "Admin")
-                      ],
-                    ),
-                    subtitle: const TextStyleWidget(text: "Active"),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return stdHeightBox;
-              },
-              itemCount: 2,
-            ),
-            stdHeightBox,
-            const HeadingWidgets(
-              head: "Invited People - 1",
-            ),
-            ListView.separated(
-              padding: const EdgeInsets.symmetric(vertical: 30),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return Container(
-                  decoration: BoxDecoration(
-                      color: white, borderRadius: BorderRadius.circular(10)),
-                  child: ListTile(
-                    leading: Container(
-                      decoration: BoxDecoration(
-                          color: darkCream,
-                          borderRadius: BorderRadius.circular(10)),
-                      height: 50,
-                      width: 50,
-                    ),
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        TextStyleWidget(text: "Krishnan Sounder"),
-                      ],
-                    ),
-                    subtitle: const TextStyleWidget(text: "Active"),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(
-                  height: 10,
-                );
-              },
-              itemCount: 1,
-            ),
-          ],
-        ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return stdHeightBox;
+                },
+                itemCount: 2,
+              ),
+              stdHeightBox,
+              HeadingWidgets(
+                head:
+                    "Invited People • ${contractsScreenController.peopleList[0].data!.invites!.length}",
+              ),
+              ListView.separated(
+                padding: const EdgeInsets.symmetric(vertical: 30),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  final invitiesData = contractsScreenController
+                      .peopleList[0].data!.invites![index];
+                  return Container(
+                    decoration: BoxDecoration(
+                        color:
+                            themeController.darkTheme.value ? lightGrey : white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: ListTile(
+                        leading: Container(
+                          decoration: BoxDecoration(
+                              color: darkCream,
+                              borderRadius: BorderRadius.circular(10)),
+                          height: 50,
+                          width: 50,
+                          child: Center(
+                            child: TextStyleWidget(
+                                textColor: white,
+                                textWidth: FontWeight.w600,
+                                text:
+                                    " ${invitiesData.email![0].toUpperCase()}"),
+                          ),
+                        ),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TextStyleWidget(
+                                text: "${invitiesData.email}",
+                                textColor: themeController.darkTheme.value
+                                    ? white
+                                    : dark),
+                          ],
+                        ),
+                        subtitle: TextStyleWidget(
+                            textColor: grey,
+                            text:
+                                "${invitiesData.configName.toString()[5].toUpperCase()}${invitiesData.configName.toString().substring(6).toLowerCase()}")),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return stdHeightBox;
+                },
+                itemCount: 1,
+              ),
+            ],
+          );
+        }),
         floatingActionButton: FloatingActionButton(
           backgroundColor: skyBlue,
           elevation: 0,
-          onPressed: () {},
+          onPressed: () {
+            Get.to(() =>  InvitePeopleScreen());
+          },
           child: const Icon(Icons.add),
         ),
       ),
