@@ -1,7 +1,7 @@
 import 'dart:io';
 
 class InternetConnectivity {
-  Future<bool> checking() async {
+ static Future<bool> checking() async {
     try {
       final result = await InternetAddress.lookup("example.com");
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
