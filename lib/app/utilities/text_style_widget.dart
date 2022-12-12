@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 
 class TextStyleWidget extends StatelessWidget {
   const TextStyleWidget(
-      {Key? key, required this.text, this.textSize, this.textColor, this.textWidth})
+      {Key? key,
+      required this.text,
+      this.textSize,
+      this.textColor,
+      this.textWidth})
       : super(key: key);
 
   final String text;
@@ -14,9 +18,7 @@ class TextStyleWidget extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-          color: textColor ?? Colors.black,
-          fontSize: textSize,
-          fontWeight: textWidth),
+          color: textColor, fontSize: textSize, fontWeight: textWidth),
     );
   }
 }
