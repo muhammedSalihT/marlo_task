@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marlo_task/app/constants/color_const.dart';
@@ -9,46 +10,44 @@ import 'package:marlo_task/app/theme/theme_controller.dart';
 import 'package:marlo_task/app/utilities/text_style_widget.dart';
 
 class InvitePeopleScreen extends GetWidget<InvitePeopleController> {
-  InvitePeopleScreen({Key? key}) : super(key: key);
-
-  final themeController = Get.find<ThemeController>();
+  const InvitePeopleScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          splashRadius: 20,
-          splashColor: dark,
-          onPressed: () {
-            Get.back();
-          },
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: themeController.darkTheme.value ? white : dark,
+    return GetBuilder<ThemeController>(builder: (themeController) {
+      return Scaffold(
+        appBar: AppBar(
+          leading: Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: IconButton(
+              onPressed: () {
+                controller.disposeWidget();
+              },
+              icon: const Icon(
+                Icons.arrow_back_ios,
+              ),
+            ),
           ),
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-        child: Form(
-          key: controller.formKey,
-          child: Column(
-            children: [
-              stdHeightBox,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextStyleWidget(
-                    text: "Invite",
-                    textColor: themeController.darkTheme.value ? white : dark,
-                    textSize: 40,
-                  ),
-                  mediumHeightBox,
-                  TextformFieldWidget(),
-                  stdHeightBox,
-                  GetBuilder<InvitePeopleController>(builder: (controller) {
-                    return GestureDetector(
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          child: Form(
+            key: controller.formKey,
+            child: Column(
+              children: [
+                stdHeightBox,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const TextStyleWidget(
+                      text: "Invite",
+                      textSize: 40,
+                      textWidth: FontWeight.bold,
+                    ),
+                    mediumHeightBox,
+                    const EmailInputWidget(),
+                    stdHeightBox,
+                    GestureDetector(
                       onTap: () {
                         showRolesWidget(context);
                       },
@@ -57,60 +56,71 @@ class InvitePeopleScreen extends GetWidget<InvitePeopleController> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: themeController.darkTheme.value
-                                ? lightGrey
-                                : white),
+                                ? lightSilver
+                                : skyBlue),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                TextStyleWidget(
-                                  text: controller.invitingRole,
-                                  textColor: themeController.darkTheme.value
-                                      ? white
-                                      : dark,
-                                  textSize: 18,
-                                ),
+                                GetBuilder<InvitePeopleController>(
+                                    builder: (controller) {
+                                  return TextStyleWidget(
+                                    text: controller.invitingRole,
+                                    textSize: 18,
+                                  );
+                                }),
                                 Icon(
-                                  Icons.arrow_drop_down,
-                                  color: themeController.darkTheme.value
-                                      ? white
-                                      : dark,
+                                  Icons.keyboard_arrow_down,
+                                  color: lightBlue,
                                 )
                               ]),
                         ),
                       ),
-                    );
-                  })
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-      bottomSheet: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-        child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-              color: Colors.transparent),
-          width: 500,
-          height: 50,
-          child: ElevatedButton(
-            style: ButtonStyle(
-              elevation: MaterialStateProperty.all(10),
-            ),
-            onPressed: () {
-              controller.inviteButtonPressed();
-            },
-            child: const Text(
-              "Continue",
+                    )
+                  ],
+                ),
+              ],
             ),
           ),
         ),
-      ),
-    );
+        bottomNavigationBar:
+            GetBuilder<InvitePeopleController>(builder: (controller) {
+          return controller.netCheck
+              ? Padding(
+                  padding: const EdgeInsets.only(bottom: 50),
+                  child: CupertinoActivityIndicator(
+                    color: lightBlue,
+                    radius: 20,
+                  ),
+                )
+              : Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(13),
+                    child: SizedBox(
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all((lightBlue))),
+                        onPressed: () async {
+                          String result =
+                              await controller.inviteButtonPressed();
+                          if (result == "SUCCESS") {
+                            Get.back();
+                          }
+                        },
+                        child: const Text(
+                          "Continue",
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+        }),
+      );
+    });
   }
-
-  
 }
