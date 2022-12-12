@@ -4,6 +4,7 @@ import 'package:marlo_task/app/constants/color_const.dart';
 abstract class Themes {
   static ThemeData themeData(isDarkTheme, BuildContext context) {
     return ThemeData(
+        iconTheme: IconThemeData(color: isDarkTheme.value ? white : dark),
         bottomSheetTheme: BottomSheetThemeData(
             backgroundColor: isDarkTheme.value ? dark : scaffoldWhite),
         textTheme: Theme.of(context).textTheme.apply(
@@ -20,6 +21,9 @@ abstract class Themes {
             unselectedItemColor: grey,
             backgroundColor: isDarkTheme.value ? lightGrey : scaffoldWhite),
         appBarTheme: AppBarTheme(
-            color: isDarkTheme.value ? dark : scaffoldWhite, elevation: 0));
+            iconTheme: IconThemeData(
+                color: themeController.darkTheme.value ? white : dark),
+            color: isDarkTheme.value ? dark : scaffoldWhite,
+            elevation: 0));
   }
 }
