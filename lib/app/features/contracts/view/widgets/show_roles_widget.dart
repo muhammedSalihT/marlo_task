@@ -17,81 +17,78 @@ Future<dynamic> showRolesWidget(
     context: context,
     builder: (BuildContext ctx) {
       return GetBuilder<ThemeController>(builder: (themeController) {
-        return ColoredBox(
-          color: themeController.darkTheme.value ? dark : white,
-          child: SizedBox(
-            height: 400,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    stdHeightBox,
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 170),
-                      child: Divider(
-                        color:
-                            themeController.darkTheme.value ? dark : lightBlue,
-                        thickness: 4,
+        return SizedBox(
+          height: 400,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  stdHeightBox,
+                  Center(
+                    child: ColoredBox(
+                      color: skyBlue,
+                      child: const SizedBox(
+                        height: 3,
+                        width: 50,
                       ),
                     ),
-                    TextStyleWidget(
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 16),
+                    child: TextStyleWidget(
                       text: "Team Roles",
-                      textColor: themeController.darkTheme.value ? white : dark,
                       textSize: 25,
-                      textWidth: FontWeight.w700,
+                      textWidth: FontWeight.w600,
                     ),
-                    mediumHeightBox,
-                    GetBuilder<InvitePeopleController>(builder: (controller) {
+                  ),
+                  mediumHeightBox,
+                  GetBuilder<InvitePeopleController>(
+                    builder: (controller) {
                       return ListView.separated(
-                          separatorBuilder: (context, index) {
-                            return stdHeightBox;
-                          },
-                          shrinkWrap: true,
-                          itemCount: controller.roles.length,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                controller.roleSelected(index);
-                                Get.back();
-                              },
-                              child: GetBuilder<InvitePeopleController>(
-                                  builder: (controller) {
-                                return Container(
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: controller.invitingRole ==
-                                            controller.roles[index]
-                                        ? skyBlue
-                                        : themeController.darkTheme.value
-                                            ? lightGrey
-                                            : white,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: TextStyleWidget(
-                                          textSize: 18,
-                                          textColor: controller.invitingRole ==
-                                                  controller.roles[index]
-                                              ? darkBlue
-                                              : themeController.darkTheme.value
-                                                  ? white
-                                                  : dark,
-                                          text: controller.roles[index]
-                                              .toString(),
-                                        )),
-                                  ),
-                                );
-                              }),
-                            );
-                          });
-                    }),
-                  ],
-                ),
+                        separatorBuilder: (context, index) {
+                          return stdHeightBox;
+                        },
+                        shrinkWrap: true,
+                        itemCount: controller.roles.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              controller.roleSelected(index);
+                              Get.back();
+                            },
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: controller.invitingRole ==
+                                        controller.roles[index]
+                                    ? skyBlue
+                                    : themeController.darkTheme.value
+                                        ? lightGrey
+                                        : white,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: TextStyleWidget(
+                                      textSize: 18,
+                                      textColor: controller.invitingRole ==
+                                              controller.roles[index]
+                                          ? lightBlue
+                                          : silverColor,
+                                      text: controller.roles[index].toString(),
+                                    )),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
           ),
