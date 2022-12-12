@@ -10,6 +10,7 @@ class InvitePeopleApi {
     try {
       final responce = await http.post(Uri.parse(invitePeopleUrl),
           headers: {'authtoken': token}, body: data);
+      log(responce.statusCode.toString());
       if (responce.statusCode >= 200) {
         return InvitePeopleModel.fromJson(jsonDecode(responce.body));
       } else {
@@ -17,7 +18,7 @@ class InvitePeopleApi {
       }
     } catch (e) {
       log(e.toString());
-      return InvitePeopleModel(message: e.toString());
+      return InvitePeopleModel(errorFlag: e.toString());
     }
   }
 }
